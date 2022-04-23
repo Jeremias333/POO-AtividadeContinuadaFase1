@@ -7,11 +7,11 @@ public class TelaConta {
     private RepositorioConta repositorioConta = new RepositorioConta();
 
     
-    public void executaTelaConta {
+    public void executaTelaConta() {
         while (true) {
             long comand = COMANDO_INIC;
             printMenu();
-            int call = ENTRADA.nextint();
+            int call = ENTRADA.nextInt();
             if (call == 1) {
                 processaIncluir();
             } else if (call == 2) {
@@ -58,7 +58,7 @@ public class TelaConta {
 
     //incluir
     private void processaIncluir() {
-		Conta conta = capturaProduto(CODIGO_DESCONHECIDO);
+		Conta conta = capturaProduto(COMANDO_INIC);
 		String retornoValidacao = validar(conta);
 		if (retornoValidacao == null) {
 			boolean retornoRepositorio = repositorioConta.incluir(conta);
@@ -75,7 +75,7 @@ public class TelaConta {
     //alterar (só pode alterar a data de abertura)
     private void processaAlterar (long codigo) {
 		Conta conta = capturaConta(codigo);
-		String retornoValidacao = validar(conta));
+		String retornoValidacao = validar(conta);
 		if (retornoValidacao == null) {
 			boolean retornoRepositorio = repositorioConta.alterar(conta);
 			if (retornoRepositorio) {
@@ -177,7 +177,7 @@ public class TelaConta {
             System.out.println("Status inválido");
         }
         boolean dataAberturaPreenchido = conta.dataAberturaPreenchido();
-        if (dataAberturaPreenchido] == false) {
+        if (dataAberturaPreenchido == false) {
             System.out.println("Data de abertura não preenchida");
         }
         boolean validarDataAbertura = conta.validarDataAbertura();
@@ -187,5 +187,3 @@ public class TelaConta {
         
 	}
 }
-
-
