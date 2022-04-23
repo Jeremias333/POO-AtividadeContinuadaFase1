@@ -3,10 +3,10 @@ package br.com.cesarschool.poo.geral;
 import java.util.Scanner;
 
 /**
- * @author Anônimo
+ * @author AnÃ´nimo
  *
- * Trata-se de uma implementação de tela primária, para efeito didático e de demonstração simplificada
- * da arquitetura em camadas e do custo de implementação de uma interface visual, por mais simples que
+ * Trata-se de uma implementaÃ§Ã£o de tela primÃ¡ria, para efeito didÃ¡tico e de demonstraÃ§Ã£o simplificada
+ * da arquitetura em camadas e do custo de implementaÃ§Ã£o de uma interface visual, por mais simples que
  * seja!
  * 
  */
@@ -39,7 +39,7 @@ public class TelaProduto {
 				System.out.println("Saindo do cadastro de produtos");
 				System.exit(0);
 			} else {
-				System.out.println("Opção inválida!!");
+				System.out.println("OpÃ§Ã£o invÃ¡lida!!");
 			}
 		} 
 	}
@@ -50,7 +50,7 @@ public class TelaProduto {
 		System.out.println("3- Excluir");
 		System.out.println("4- Buscar");
 		System.out.println("5- Sair");
-		System.out.print("Digite a opção: ");
+		System.out.print("Digite a opÃ§Ã£o: ");
 	}	
 	
 	private void processaInclusao() {
@@ -59,9 +59,9 @@ public class TelaProduto {
 		if (retornoValidacao == null) {
 			boolean retornoRepositorio = repositorioProduto.incluir(produto);
 			if (retornoRepositorio) {
-				System.out.println("Produto incluído com sucesso!");
+				System.out.println("Produto incluÃ­do com sucesso!");
 			} else {
-				System.out.println("Erro na inclusão de produto!");
+				System.out.println("Erro na inclusÃ£o de produto!");
 			}
 		} else {
 			System.out.println(retornoValidacao);
@@ -76,7 +76,7 @@ public class TelaProduto {
 			if (retornoRepositorio) {
 				System.out.println("Produto alterado com sucesso!");
 			} else {
-				System.out.println("Erro na alteração de produto!");
+				System.out.println("Erro na alteraÃ§Ã£o de produto!");
 			}
 		} else {
 			System.out.println(retornoValidacao);
@@ -84,16 +84,16 @@ public class TelaProduto {
 	}
 	
 	private long processaBusca() {
-		System.out.print("Digite o código: ");
+		System.out.print("Digite o cÃ³digo: ");
 		long codigo = ENTRADA.nextLong();
 		Produto produto = repositorioProduto.buscar(codigo);
 		if (produto == null) {
-			System.out.println("Produto não encontrado!");
+			System.out.println("Produto nÃ£o encontrado!");
 			return CODIGO_DESCONHECIDO;
 		} else {
-			System.out.println("Código: " + produto.getCodigo());
+			System.out.println("CÃ³digo: " + produto.getCodigo());
 			System.out.println("Nome: " + produto.getNome());
-			System.out.println("Preço: " + produto.getPreco());
+			System.out.println("PreÃ§o: " + produto.getPreco());
 			System.out.println("Tipo: " + produto.getTipo().getDescricao());
 			return codigo;
 		}
@@ -102,23 +102,23 @@ public class TelaProduto {
 	private void processaExclusao(long codigo) {
 		boolean retornoRepositorio = repositorioProduto.excluir(codigo);
 		if (retornoRepositorio) {
-			System.out.println("Produto excluído com sucesso!");
+			System.out.println("Produto excluÃ­do com sucesso!");
 		} else {
-			System.out.println("Erro na exclusão de produto!");
+			System.out.println("Erro na exclusÃ£o de produto!");
 		}
 	}
 	
 	private Produto capturaProduto(long codigoDaAlteracao) {
 		long codigo; 
 		if (codigoDaAlteracao == CODIGO_DESCONHECIDO) {
-			System.out.print("Digite o código: ");
+			System.out.print("Digite o cÃ³digo: ");
 			codigo = ENTRADA.nextLong();			
 		} else {
 			codigo = codigoDaAlteracao;
 		}
 		System.out.print("Digite o nome: ");
 		String nome = ENTRADA.next();
-		System.out.print("Digite o preço: ");
+		System.out.print("Digite o preÃ§o: ");
 		double preco = ENTRADA.nextDouble();
 		System.out.print("Digite o tipo de produto (1, 2 ou 3): ");
 		int codigoTipo = ENTRADA.nextInt();
@@ -129,15 +129,15 @@ public class TelaProduto {
 	private String validar(Produto produto) {
 		int validacaoNome = produto.validarNome();
 		if (!produto.codigoValido()) {
-			return "Código inválido!";
+			return "CÃ³digo invÃ¡lido!";
 		} else if (validacaoNome == Produto.NOME_NAO_INFORMADO) {
-			return "Nome não informado!";
+			return "Nome nÃ£o informado!";
 		} else if (validacaoNome == Produto.NOME_MUITO_CURTO) {
 			return "Nome muito curto!";
 		} else if (!produto.precoValido()) {
-			return "Preço inválido!";
+			return "PreÃ§o invÃ¡lido!";
 		} else if (!produto.tipoPreechido()) {
-			return "Tipo não preenchido!";
+			return "Tipo nÃ£o preenchido!";
 		} else {
 			return null;
 		}

@@ -14,7 +14,7 @@ public class TelaConta {
             if (call == 1) {
                 processaIncluir();
             } else if (call == 2) {
-                alterar();
+                processaAlterar();
             } else if (call == 3) {
                 processaEncerrar();
             } else if (call == 4) {
@@ -30,7 +30,8 @@ public class TelaConta {
             } else if (call == 9) {
                 processarDebitar();
             } else if (call == 10) {
-                processaSair();
+                System.out.println("Saindo do cadastro de conta");
+                System.exit(0);
             } else {
                 System.out.println("Opção inválida!!");
             }
@@ -54,38 +55,54 @@ public class TelaConta {
 	}
     
 
-    //incluir //elder fez
-    public boolean incluir(Conta conta) {
-		if (buscarIndice(conta.getNumero()) != -1) {
-			return false;
-		} else if (tamanhoAtual == TAMANHO_MAX_CONTA - 1) {
-			return false;
-		} else {
-			for (int i = 0; i < cadastroConta.length; i++) {
-				if (cadastroConta[i] == null) {
-					cadastroConta[i] = conta;
-					break;
-				}
+    //incluir
+    private void processaIncluir() {
+		Conta conta = capturaProduto(CODIGO_DESCONHECIDO);
+		String retornoValidacao = validar(conta);
+		if (retornoValidacao == null) {
+			boolean retornoRepositorio = repositorioConta.incluir(conta);
+			if (retornoRepositorio) {
+				System.out.println("Conta incluída com sucesso!");
+			} else {
+				System.out.println("Erro na inclusão de conta!");
 			}
-			tamanhoAtual++; 
-			return true; 
-		}
-	}
-    
-    //alterar (só pode alterar a data de abertura) //elder fez
-
-	public boolean processoAlterar(Conta conta) {
-		int indice = buscarIndice(conta.getNumero()); 
-		if (indice == -1) {
-			return false;
 		} else {
-			cadastroConta[indice] = conta;
-			return true; 
-		}
+			System.out.println(retornoValidacao);
+		}		
+	}
+    
+    //alterar (só pode alterar a data de abertura)
+    private void processaAlterar (long codigo) {
+		Conta conta = capturaConta(codigo);
+		String retornoValidacao = validar(conta));
+		if (retornoValidacao == null) {
+			boolean retornoRepositorio = repositorioConta.alterar(conta);
+			if (retornoRepositorio) {
+				System.out.println("Conta alterado com sucesso!");
+			} else {
+				System.out.println("Erro na altera��o de produto!");
+			}
+		} else {
+			System.out.println(retornoValidacao);
+		}		
 	}
 
+    private Produto capturaConta(long codigoDaAlteracao) {
+		long numero; 
+		if (codigoDaAlteracao == COMANDO_INIC) {
+			System.out.print("Digite o numero: ");
+			numero = ENTRADA.nextLong();			
+		} else {
+			numero = codigoDaAlteracao;
+		}
+        System.out.print("Digite sua data de Abertura: ");
+        LocalDate dataAbertura = ENTRADA.nextLong();   //nao temos certeza do nextlong
+        System.out.print("Digite o Status da conta (1, 2 ou 3): ");
+        int statusTipo = ENTRADA.nextInt();
+        TipoStatus status = TipoStatus.obterPorCodigo(statusTipo);
+        return new conta(numero, statusTipo, dataAbertura);
+    }
 
-    
     //encerrar (altera o status, contas já encerradas não podem ser encerradas novamente)
     public void processaEncerrar(Conta conta) {
         if (conta.getStatus() != ENCERRADA) {
@@ -106,23 +123,33 @@ public class TelaConta {
             conta.setStatus(ATIVA);
         }
     }
-    
-    
-    
-    
-    //excluir //elder fez
-    public boolean excluir(long numero) {
-		int indice = buscarIndice(numero);
-		if (indice == -1) {
-			return false;
+     
+    //excluir
+    private void processaExclusao(long numero) {
+		boolean retornoRepositorio = repositorioConta.excluir(numero);
+		if (retornoRepositorio) {
+			System.out.println("Produto excluído com sucesso!");
 		} else {
-			cadastroConta[indice] = null;
-			tamanhoAtual--;
-			return true;
-		}		
+			System.out.println("Erro na exclusão de produto!");
+		}
 	}
     
-    //buscar (mostrar os atributos e o escore) //elder fez
+    //buscar (mostrar os atributos e o escore) 
+    private long processaBusca() {
+		System.out.print("Digite o numero: ");
+		long numero = ENTRADA.nextLong();
+		Conta conta = repositorioConta.buscar(conta);
+		if (conta == null) {
+			System.out.println("Conta não encontrado!");
+			return COMANDO_INIC;
+		} else {
+			System.out.println("Numero: " + conta.getNumero());
+			System.out.println("Data de abertura: " + conta.getDataAbertura());
+			System.out.println("Saldo: " + conta.getSaldo());
+			System.out.println("Status: " + conta.getCodigo().getDescricao());
+			return numero;
+		}
+	}
     
     //creditar ---> chamada de metodos correspondentes na atualização do saldo 
     public void processaCreditar(Conta conta, long numero, double valor) {
@@ -139,6 +166,25 @@ public class TelaConta {
         }
     }
 
+    private String validar(Conta conta) {
+		boolean validacaoNumero = conta.validarNumero();
+        if (validacaoNumero == false) {
+            System.out.println("Numero inválido");
+        }
+        boolean statusPreenchido = conta.statusPreenchido();
+        if (statusPreenchido == false) {
+            System.out.println("Status inválido");
+        }
+        boolean dataAberturaPreenchido = conta.dataAberturaPreenchido();
+        if (dataAberturaPreenchido] == false) {
+            System.out.println("Data de abertura não preenchida");
+        }
+        boolean validarDataAbertura = conta.validarDataAbertura();
+        if (validarDataAbertura == false) {
+            System.out.println("Data de abertura inválida");
+        }
+        
+	}
 }
 
 
