@@ -1,6 +1,6 @@
 package br.com.cesarschool.poo.geral;
 
-public class ProgramaCadastroConta {
+public class PogramaCadastroConta {
 
 	public static void main(String[] args) {
 		TelaConta tela = new TelaConta();

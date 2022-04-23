@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class TelaConta {
     private static final int COMANDO_INIC = -1;
     private static final Scanner ENTRADA = new Scanner(System.in);
+    private RepositorioConta repositorioConta = new RepositorioConta();
 
     
     public void executaTelaConta {
