@@ -41,11 +41,17 @@ public class TelaConta {
             		processaExclusao(codigo);
 				}
             } else if (call == 7) {
-                processarBuscar();
+                processaBusca();
             } else if (call == 8) {
-                processaCreditar();
+            	codigo = processaBusca();
+            	if (codigo != CODIGO_DESCONHECIDO) {
+            		processaCreditar(codigo);
+				}
             } else if (call == 9) {
-                processarDebitar();
+            	codigo = processaBusca();
+            	if (codigo != CODIGO_DESCONHECIDO) {
+            		processaDebitar(codigo);
+				}
             } else if (call == 10) {
                 System.out.println("Saindo do cadastro de conta");
                 System.exit(0);
@@ -73,7 +79,6 @@ public class TelaConta {
     
     //incluir
     private void processaIncluir() {
-//		Conta conta = capturaProduto(COMANDO_INIC);
 		Conta conta = capturaConta(CODIGO_DESCONHECIDO);
 		String retornoValidacao = validar(conta);
 		if (retornoValidacao == null) {
@@ -176,37 +181,47 @@ public class TelaConta {
 	}
     
     //creditar ---> chamada de metodos correspondentes na atualização do saldo 
-    public void processaCreditar(Conta conta, long numero, double valor) {
+    public void processaCreditar(long numero) {
+    	Conta conta = repositorioConta.buscar(numero);
+    	System.out.println("Saldo atual: " + conta.getSaldo());
+    	System.out.println("");
+    	System.out.println("Digite o valor que deve ser creditado: ");
+    	double valor = ENTRADA.nextDouble();
         if (conta.getNumero() == numero) {
-            creditar(valor);
+            conta.setSaldo(conta.getSaldo()+valor);
         }
     }
 
     //debitar ---> chamada de metodos correspondentes na atualização do saldo
-    public void processaDebitar(Conta conta, long numero, double valor) {
-        double value = ENTRADA.nextDouble();
+    public void processaDebitar(long numero) {
+    	Conta conta = repositorioConta.buscar(numero);
+    	System.out.println("Saldo atual: " + conta.getSaldo());
+    	System.out.println("");
+    	System.out.println("Digite o valor que deve ser debitado: ");
+    	double valor = ENTRADA.nextDouble();
         if (conta.getNumero() == numero) {
-            debitar(valor);
+            conta.setSaldo(conta.getSaldo()-valor);
         }
     }
 
     private String validar(Conta conta) {
 		boolean validacaoNumero = conta.validarNumero();
+		String erros = "";
         if (validacaoNumero == false) {
-            System.out.println("Numero inválido");
+            erros+=" Numero inválido, ";
         }
         boolean statusPreenchido = conta.statusPreenchido();
         if (statusPreenchido == false) {
-            System.out.println("Status inválido");
+           erros+=" Status inválido, ";
         }
         boolean dataAberturaPreenchido = conta.dataAberturaPreenchido();
         if (dataAberturaPreenchido == false) {
-            System.out.println("Data de abertura não preenchida");
+            erros+=" Data de abertura não preenchida, ";
         }
         boolean validarDataAbertura = conta.validarDataAbertura();
         if (validarDataAbertura == false) {
-            System.out.println("Data de abertura inválida");
+            erros+=" Data de abertura inválida, ";
         }
-        
+        return erros;
 	}
 }
