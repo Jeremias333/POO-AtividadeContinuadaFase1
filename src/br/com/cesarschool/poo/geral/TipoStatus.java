@@ -3,7 +3,7 @@ package br.com.cesarschool.poo.geral;
 public enum TipoStatus {
 	ATIVA(1, "Ativa"), 
 	ENCERRADA(2, "Encerrada"), 
-	BLOQUEADA(3,"Bloqueada"); 
+	BLOQUEADA(3,"Bloqueada");
 	
 	private int codigo;
 	private String descricao;

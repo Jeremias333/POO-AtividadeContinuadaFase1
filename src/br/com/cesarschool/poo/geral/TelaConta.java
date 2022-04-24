@@ -1,29 +1,45 @@
 package br.com.cesarschool.poo.geral;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class TelaConta {
-    private static final int COMANDO_INIC = -1;
+	private static final int CODIGO_DESCONHECIDO = -1;
     private static final Scanner ENTRADA = new Scanner(System.in);
     private RepositorioConta repositorioConta = new RepositorioConta();
 
     
     public void executaTelaConta() {
         while (true) {
-            long comand = COMANDO_INIC;
+            long codigo = CODIGO_DESCONHECIDO;
             printMenu();
             int call = ENTRADA.nextInt();
             if (call == 1) {
                 processaIncluir();
             } else if (call == 2) {
-                processaAlterar();
+            	codigo = processaBusca();
+            	if (codigo != CODIGO_DESCONHECIDO) {
+					processaAlterar(codigo);
+				}
             } else if (call == 3) {
-                processaEncerrar();
+            	codigo = processaBusca();
+            	if (codigo != CODIGO_DESCONHECIDO) {
+            		processaEncerrar(codigo);
+				}
             } else if (call == 4) {
-                processaBloquear();
+            	codigo = processaBusca();
+            	if (codigo != CODIGO_DESCONHECIDO) {
+            		processaBloquear(codigo);
+				}
             } else if (call == 5) {
-                processarDesbloquear();
+            	codigo = processaBusca();
+            	if (codigo != CODIGO_DESCONHECIDO) {
+            		processaDesbloquear(codigo);
+				}
             } else if (call == 6) {
-                processaExcluir();
+            	codigo = processaBusca();
+            	if (codigo != CODIGO_DESCONHECIDO) {
+            		processaExclusao(codigo);
+				}
             } else if (call == 7) {
                 processarBuscar();
             } else if (call == 8) {
@@ -55,11 +71,10 @@ public class TelaConta {
 		System.out.print("Digite a opção: ");
 	}
     
-
     //incluir
     private void processaIncluir() {
 //		Conta conta = capturaProduto(COMANDO_INIC);
-		Conta conta = capturaConta(COMANDO_INIC)
+		Conta conta = capturaConta(CODIGO_DESCONHECIDO);
 		String retornoValidacao = validar(conta);
 		if (retornoValidacao == null) {
 			boolean retornoRepositorio = repositorioConta.incluir(conta);
@@ -74,8 +89,8 @@ public class TelaConta {
 	}
     
     //alterar (só pode alterar a data de abertura)
-    private void processaAlterar (long codigo) {
-		Conta conta = capturaConta(codigo);
+    private void processaAlterar (long numero) {
+		Conta conta = capturaConta(numero);
 		String retornoValidacao = validar(conta);
 		if (retornoValidacao == null) {
 			boolean retornoRepositorio = repositorioConta.alterar(conta);
@@ -90,39 +105,46 @@ public class TelaConta {
 	}
 
     private Conta capturaConta(long codigoDaAlteracao) {
-		long numero; 
-		if (codigoDaAlteracao == COMANDO_INIC) {
+		long numero;
+		LocalDate dataAbertura;
+		if (codigoDaAlteracao == CODIGO_DESCONHECIDO) {
 			System.out.print("Digite o numero: ");
-			numero = ENTRADA.nextLong();			
+			numero = ENTRADA.nextLong();
+			dataAbertura = LocalDate.now();
+			System.out.print("Digite o Status da conta (1, 2 ou 3): ");
+	        int statusTipo = ENTRADA.nextInt();
+	        TipoStatus status = TipoStatus.obterPorCodigo(statusTipo);
+	        return new Conta(numero, status, dataAbertura);
 		} else {
 			numero = codigoDaAlteracao;
+			System.out.print("Digite o Status da conta (1, 2 ou 3): ");
+	        int statusTipo = ENTRADA.nextInt();
+	        TipoStatus status = TipoStatus.obterPorCodigo(statusTipo);
+	        return new Conta(numero, status);
 		}
-        System.out.print("Digite sua data de Abertura: ");
-        LocalDate dataAbertura = ENTRADA.nextLong();   //nao temos certeza do nextlong
-        System.out.print("Digite o Status da conta (1, 2 ou 3): ");
-        int statusTipo = ENTRADA.nextInt();
-        TipoStatus status = TipoStatus.obterPorCodigo(statusTipo);
-        return new conta(numero, statusTipo, dataAbertura);
     }
 
     //encerrar (altera o status, contas já encerradas não podem ser encerradas novamente)
-    public void processaEncerrar(Conta conta) {
-        if (conta.getStatus() != ENCERRADA) {
-            conta.setStatus(ENCERRADA);
-        }
+    public void processaEncerrar(long numero) {
+    	Conta conta = repositorioConta.buscar(numero);
+		 if (conta.getStatus() != TipoStatus.ENCERRADA) {
+	        conta.setStatus(TipoStatus.ENCERRADA);
+	    }
     }
     
     //bloquear (altera o status, contas encerradas ou já bloqueadas não podem ser bloqueadas)
-    public void processaBloquear(Conta conta) {
-        if (conta.getStatus() != ENCERRADA && conta.getStats() != BLOQUEADA) {
-            conta.setStatus(BLOQUEADA);
+    public void processaBloquear(long numero) {
+    	Conta conta = repositorioConta.buscar(numero);
+        if (conta.getStatus() != TipoStatus.ENCERRADA && conta.getStatus() != TipoStatus.BLOQUEADA) {
+            conta.setStatus(TipoStatus.BLOQUEADA);
         }
     }
     
     //desbloquear (altera o status, contas encerradas ou já bloqueadas não podem ser bloqueadas)
-    public void processaDesbloquear(Conta conta) {
-        if (conta.getStats() == BLOQUEADA) {
-            conta.setStatus(ATIVA);
+    public void processaDesbloquear(long numero) {
+    	Conta conta = repositorioConta.buscar(numero);
+        if (conta.getStatus() == TipoStatus.BLOQUEADA) {
+            conta.setStatus(TipoStatus.ATIVA);
         }
     }
      
@@ -140,15 +162,15 @@ public class TelaConta {
     private long processaBusca() {
 		System.out.print("Digite o numero: ");
 		long numero = ENTRADA.nextLong();
-		Conta conta = repositorioConta.buscar(conta);
+		Conta conta = repositorioConta.buscar(numero);
 		if (conta == null) {
 			System.out.println("Conta não encontrado!");
-			return COMANDO_INIC;
+			return CODIGO_DESCONHECIDO;
 		} else {
 			System.out.println("Numero: " + conta.getNumero());
 			System.out.println("Data de abertura: " + conta.getDataAbertura());
 			System.out.println("Saldo: " + conta.getSaldo());
-			System.out.println("Status: " + conta.getCodigo().getDescricao());
+			System.out.println("Status: " + conta.getStatus().getDescricao());
 			return numero;
 		}
 	}
