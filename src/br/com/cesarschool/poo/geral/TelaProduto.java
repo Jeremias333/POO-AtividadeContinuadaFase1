@@ -27,7 +27,7 @@ public class TelaProduto {
 				codigo = processaBusca();
 				if (codigo != CODIGO_DESCONHECIDO) {
 					processaAlteracao(codigo);
-				} 
+				}
 			} else if (opcao == 3) {
 				codigo = processaBusca();
 				if (codigo != CODIGO_DESCONHECIDO) {
