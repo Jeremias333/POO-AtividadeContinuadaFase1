@@ -58,7 +58,8 @@ public class TelaConta {
 
     //incluir
     private void processaIncluir() {
-		Conta conta = capturaProduto(COMANDO_INIC);
+//		Conta conta = capturaProduto(COMANDO_INIC);
+		Conta conta = capturaConta(COMANDO_INIC)
 		String retornoValidacao = validar(conta);
 		if (retornoValidacao == null) {
 			boolean retornoRepositorio = repositorioConta.incluir(conta);
@@ -88,7 +89,7 @@ public class TelaConta {
 		}		
 	}
 
-    private Produto capturaConta(long codigoDaAlteracao) {
+    private Conta capturaConta(long codigoDaAlteracao) {
 		long numero; 
 		if (codigoDaAlteracao == COMANDO_INIC) {
 			System.out.print("Digite o numero: ");
