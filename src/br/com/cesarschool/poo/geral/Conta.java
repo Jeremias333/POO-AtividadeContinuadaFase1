@@ -107,8 +107,8 @@ public class Conta {
 	}
 	
 	boolean validarDataAbertura() {
-		if(this.dataAbertura.isBefore(LocalDate.now())) {
-			if(this.dataAbertura.getMonthValue()-1 > LocalDate.now().getMonthValue()) {
+		if(this.dataAbertura.isBefore(LocalDate.now()) || this.dataAbertura.isEqual(LocalDate.now()) ) {
+			if(this.dataAbertura.getMonthValue() > LocalDate.now().getMonthValue()-1) {
 				return true;
 			}
 		}
