@@ -82,7 +82,7 @@ public class TelaConta {
 			if (retornoRepositorio) {
 				System.out.println("Conta alterado com sucesso!");
 			} else {
-				System.out.println("Erro na altera��o de produto!");
+				System.out.println("Erro na altera��o de conta!");
 			}
 		} else {
 			System.out.println(retornoValidacao);
@@ -130,9 +130,9 @@ public class TelaConta {
     private void processaExclusao(long numero) {
 		boolean retornoRepositorio = repositorioConta.excluir(numero);
 		if (retornoRepositorio) {
-			System.out.println("Produto excluído com sucesso!");
+			System.out.println("Conta excluído com sucesso!");
 		} else {
-			System.out.println("Erro na exclusão de produto!");
+			System.out.println("Erro na exclusão de conta!");
 		}
 	}
     
