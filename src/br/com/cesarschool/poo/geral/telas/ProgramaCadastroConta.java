@@ -1,6 +1,4 @@
-package br.com.cesarschool.poo.geral.mediators;
-
-import br.com.cesarschool.poo.geral.telas.TelaConta;
+package br.com.cesarschool.poo.geral.telas;
 
 public class ProgramaCadastroConta {
 
