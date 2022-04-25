@@ -1,5 +1,7 @@
-package br.com.cesarschool.poo.geral;
-
+package br.com.cesarschool.poo.geral.telas;
+import br.com.cesarschool.poo.geral.repositorios.RepositorioProduto;
+import br.com.cesarschool.poo.geral.entidades.Produto;
+import br.com.cesarschool.poo.geral.entidades.TipoProduto;
 import java.util.Scanner;
 
 /**

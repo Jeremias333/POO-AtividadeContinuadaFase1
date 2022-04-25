@@ -1,4 +1,4 @@
-package br.com.cesarschool.poo.geral;
+package br.com.cesarschool.poo.geral.mediators;
 
 public class ProgramaCadastroProduto {
 

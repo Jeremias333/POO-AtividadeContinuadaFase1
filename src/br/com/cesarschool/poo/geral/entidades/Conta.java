@@ -1,4 +1,4 @@
-package br.com.cesarschool.poo.geral;
+package br.com.cesarschool.poo.geral.entidades;
 import java.time.LocalDate;
 
 public class Conta {
@@ -46,7 +46,7 @@ public class Conta {
 		this.saldo = saldo;
 	}
 	
-	boolean validarNumero(){
+	public boolean validarNumero(){
 		if(this.numero > 0) {
 			return true;
 		}
@@ -92,15 +92,15 @@ public class Conta {
 		}
 	}
 	
-	boolean statusPreenchido() {
+	public boolean statusPreenchido() {
 		return this.status != null;
 	}
 	
-	boolean dataAberturaPreenchido() {
+	public boolean dataAberturaPreenchido() {
 		return this.dataAbertura != null;
 	}
 	
-	boolean validarDataAbertura() {
+	public boolean validarDataAbertura() {
 		if(this.dataAbertura.isBefore(LocalDate.now()) || this.dataAbertura.isEqual(LocalDate.now()) ) {
 			if(this.dataAbertura.getMonthValue() > LocalDate.now().getMonthValue()-1) {
 				return true;
