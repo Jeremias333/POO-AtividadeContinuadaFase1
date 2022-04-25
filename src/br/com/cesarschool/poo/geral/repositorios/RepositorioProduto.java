@@ -1,10 +1,12 @@
-package br.com.cesarschool.poo.geral;
+package br.com.cesarschool.poo.geral.repositorios;
+
+import br.com.cesarschool.poo.geral.entidades.Produto;
 
 /**
- * @author Anônimo
+ * @author Anï¿½nimo
  *
- * Implementação primária para efeito didático.
- * Será enormemente melhorada!!!
+ * Implementaï¿½ï¿½o primï¿½ria para efeito didï¿½tico.
+ * Serï¿½ enormemente melhorada!!!
  */
 public class RepositorioProduto {
 

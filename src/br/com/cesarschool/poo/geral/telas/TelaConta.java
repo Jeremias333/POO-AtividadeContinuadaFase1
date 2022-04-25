@@ -1,5 +1,8 @@
-package br.com.cesarschool.poo.geral;
+package br.com.cesarschool.poo.geral.telas;
 import java.time.LocalDate;
+import br.com.cesarschool.poo.geral.repositorios.RepositorioConta;
+import br.com.cesarschool.poo.geral.entidades.Conta;
+import br.com.cesarschool.poo.geral.entidades.TipoStatus;
 import java.util.Scanner;
 
 public class TelaConta {
@@ -132,7 +135,7 @@ public class TelaConta {
 			conta = repositorioConta.buscar(numero);
 			System.out.print("Digite o dia da abertura: ");
 			day = ENTRADA.nextInt();
-			System.out.print("Digite o mês da abertura: ");
+			System.out.print("Digite o mï¿½s da abertura: ");
 			month = ENTRADA.nextInt();
 			System.out.print("Digite o ano da abertura: ");
 			year = ENTRADA.nextInt();

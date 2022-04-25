@@ -1,4 +1,4 @@
-package br.com.cesarschool.poo.geral;
+package br.com.cesarschool.poo.geral.entidades;
 
 /**
  * Pesquisar sobre "enum" em Java, ler sobre e se inteirar do assunto
