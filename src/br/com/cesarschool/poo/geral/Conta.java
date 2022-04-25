@@ -14,12 +14,6 @@ public class Conta {
 		this.saldo = 0;
 	}
 	
-	public Conta(long numero, TipoStatus status) {
-		this.numero = numero;
-		this.status = status;
-		this.saldo = 0;
-	}
-	
 	public long getNumero() {
 		return numero;
 	}
