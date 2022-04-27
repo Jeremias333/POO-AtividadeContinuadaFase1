@@ -1,4 +1,4 @@
-package br.com.cesarschool.poo.geral.mediators;
+package br.com.cesarschool.poo.telas;
 
 import br.com.cesarschool.poo.geral.telas.TelaConta;
 
