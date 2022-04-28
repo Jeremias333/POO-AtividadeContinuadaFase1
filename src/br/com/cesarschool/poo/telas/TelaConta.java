@@ -87,7 +87,7 @@ public class TelaConta {
     private void processaIncluir() {
 		Conta conta = capturaConta(CODIGO_DESCONHECIDO);
 		StatusValidacaoConta retornoValidacao = ContaMediator.validar(conta);
-		if (retornoValidacao.isValido() == false) {
+		if (retornoValidacao.isValido() == true) {
 			boolean retornoRepositorio = repositorioConta.incluir(conta);
 			if (retornoRepositorio) {
 				System.out.println("Conta incluída com sucesso!");
@@ -105,7 +105,7 @@ public class TelaConta {
     private void processaAlterar (long numero) {
 		Conta conta = capturaConta(numero);
 		StatusValidacaoConta retornoValidacao = ContaMediator.validar(conta);
-		if (retornoValidacao.isValido() == false) {
+		if (retornoValidacao.isValido() == true) {
 			boolean retornoRepositorio = repositorioConta.alterar(conta);
 			if (retornoRepositorio) {
 				System.out.println("Conta alterado com sucesso!");
