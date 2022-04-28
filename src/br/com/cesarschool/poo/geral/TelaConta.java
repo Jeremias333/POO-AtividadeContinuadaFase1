@@ -132,7 +132,7 @@ public class TelaConta {
 			conta = repositorioConta.buscar(numero);
 			System.out.print("Digite o dia da abertura: ");
 			day = ENTRADA.nextInt();
-			System.out.print("Digite o m�s da abertura: ");
+			System.out.print("Digite o m�s da abertura: ");
 			month = ENTRADA.nextInt();
 			System.out.print("Digite o ano da abertura: ");
 			year = ENTRADA.nextInt();
@@ -197,9 +197,7 @@ public class TelaConta {
     	System.out.println("");
     	System.out.println("Digite o valor que deve ser creditado: ");
     	double valor = ENTRADA.nextDouble();
-        if (conta.getNumero() == numero) {
-            conta.setSaldo(conta.getSaldo()+valor);
-        }
+    	conta.creditar(valor);
     }
 
     //debitar ---> chamada de metodos correspondentes na atualização do saldo
@@ -209,9 +207,7 @@ public class TelaConta {
     	System.out.println("");
     	System.out.println("Digite o valor que deve ser debitado: ");
     	double valor = ENTRADA.nextDouble();
-        if (conta.getNumero() == numero) {
-            conta.setSaldo(conta.getSaldo()-valor);
-        }
+    	conta.debitar(valor);
     }
     
     private void printValores(long numero) {
