@@ -1,12 +1,26 @@
-package br.com.cesarschool.poo.geral.repositorios;
+package br.com.cesarschool.poo.repositorios;
 
-import br.com.cesarschool.poo.geral.entidades.Conta;
+import br.com.cesarschool.poo.entidades.Conta;
 
 public class RepositorioConta {
     private static final int TAMANHO_MAX_CONTA = 1000;
+	private static RepositorioConta instancia = null;
 	
 	private Conta[] cadastroConta = new Conta[TAMANHO_MAX_CONTA];
 	private int tamanhoAtual = 0;
+	
+	
+	private RepositorioConta() {
+		
+	}
+	
+	public static RepositorioConta getInstancia() {
+		if (instancia == null) {
+			instancia = new RepositorioConta();
+		}
+		return instancia; 
+	}
+	
 
     public boolean incluir(Conta conta) {
 		if (buscarIndice(conta.getNumero()) != -1) {

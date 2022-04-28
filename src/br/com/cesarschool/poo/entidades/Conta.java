@@ -1,4 +1,4 @@
-package br.com.cesarschool.poo.geral.entidades;
+package br.com.cesarschool.poo.entidades;
 import java.time.LocalDate;
 
 public class Conta {
@@ -46,21 +46,12 @@ public class Conta {
 		this.saldo = saldo;
 	}
 	
-	public boolean validarNumero(){
-		if(this.numero > 0) {
-			return true;
-		}
-		return false;
-	}
-	
 	public int calcularEscoreConta() {
 		if (this.status != TipoStatus.BLOQUEADA) {
 			if(this.status == TipoStatus.ENCERRADA) {
 				return 0;
 			}
-			
 			int dataDiff = LocalDate.now().getDayOfYear() - dataAbertura.getDayOfYear();
-			//conta está ativa caso não entre no segundo if
 			double scoreValue = this.saldo*3+(dataDiff*2);
 			
 			if(scoreValue < 5800) {
@@ -74,38 +65,5 @@ public class Conta {
 			}
 		}
 		return 0;
-	}
-	
-	public void creditar(double valor) {
-		if(this.status != TipoStatus.ENCERRADA) {
-			if(valor > 0) {
-				this.saldo += valor;
-			}
-		}
-	}
-	
-	public void debitar(double valor) {
-		if(this.status != TipoStatus.BLOQUEADA) {
-			if(valor > 0) {
-				this.saldo -= valor;
-			}
-		}
-	}
-	
-	public boolean statusPreenchido() {
-		return this.status != null;
-	}
-	
-	public boolean dataAberturaPreenchido() {
-		return this.dataAbertura != null;
-	}
-	
-	public boolean validarDataAbertura() {
-		if(this.dataAbertura.isBefore(LocalDate.now()) || this.dataAbertura.isEqual(LocalDate.now()) ) {
-			if(this.dataAbertura.getMonthValue() > LocalDate.now().getMonthValue()-1) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

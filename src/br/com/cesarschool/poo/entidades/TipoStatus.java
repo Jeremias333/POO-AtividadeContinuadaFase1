@@ -1,4 +1,4 @@
-package br.com.cesarschool.poo.geral.entidades;
+package br.com.cesarschool.poo.entidades;
 
 public enum TipoStatus {
 	ATIVA(1, "Ativa"), 
