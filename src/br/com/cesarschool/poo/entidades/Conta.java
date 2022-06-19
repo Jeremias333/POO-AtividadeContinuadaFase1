@@ -6,6 +6,7 @@ public class Conta {
 	private TipoStatus status;
 	private LocalDate dataAbertura;
 	private double saldo;
+	private Correntista correntista;
 
 	public Conta(long numero, TipoStatus status, LocalDate dataAbertura) {
 		this.numero = numero;
@@ -65,5 +66,13 @@ public class Conta {
 			}
 		}
 		return 0;
+	}
+
+	public Correntista getCorrentista() {
+		return correntista;
+	}
+
+	public void setCorrentista(Correntista correntista) {
+		this.correntista = correntista;
 	}
 }
