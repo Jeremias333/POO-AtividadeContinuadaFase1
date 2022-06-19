@@ -1,6 +1,7 @@
 package br.com.cesarschool.poo.mediators;
 
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import br.com.cesarschool.poo.entidades.Conta;
@@ -20,8 +21,10 @@ public class ContaMediator {
 	private static final String MENSAGEM_CONTA_NAO_INFORMADA = "conta nï¿½o informada!";
 	private static final String MENSAGEM_DATA_NAO_PREENCHIDA = "Data nï¿½o preenchida!";
 	private static final String MENSAGEM_DATA_NAO_VALIDA = "Data invï¿½lidaa!";
-	private static final String MENSAGEM_CORRENTISTA_NAO_INFORMADO = "Correntista nï¿½o informado!";
 	private static final String MENSAGEM_TAXA_INVALIDA = "Taxa invÃ¡lida preenchida!";
+	private static final String MENSAGEM_NOME_NAO_PREENCHIDO = "Nome não preenchido";
+	private static final String MENSAGEM_CPF_NAO_PREENCHIDO = "CPF não preenchido";
+	private static final String MENSAGEM_CPF_INVALIDO = "CPF invalido";
 
 	public StatusValidacaoConta incluir(Conta conta) {
 		StatusValidacaoConta status = validar(conta);
@@ -86,12 +89,19 @@ public class ContaMediator {
 			}
 			
 			if (conta.getCorrentista() != null) {
-				Correntista correntista = CorrentistaMediator.buscar(conta.getCorrentista().getCpf());
-				if (correntista == null){
-					codigoStatus[contErros++] = StatusValidacaoConta.CORRENTISTA_NAO_INFORMADO;
-					mensagensStatus[contErros] = MENSAGEM_CORRENTISTA_NAO_INFORMADO;
-				}else{
-					conta.setCorrentista(correntista);
+				Correntista correntista = conta.getCorrentista();
+				if(correntista.getCpf() == null) {
+					codigoStatus[contErros++] = StatusValidacaoConta.CPF_NAO_PREENCHIDO;
+					mensagensStatus[contErros] = MENSAGEM_CPF_NAO_PREENCHIDO;
+				}
+				if(correntista.getNome() == null) {
+					codigoStatus[contErros++] = StatusValidacaoConta.NOME_NAO_PREENCHIDO;
+					mensagensStatus[contErros] = MENSAGEM_NOME_NAO_PREENCHIDO;
+				} 
+				
+				if(!validarCpf(correntista.getCpf())){
+					codigoStatus[contErros++] = StatusValidacaoConta.CPF_INVALIDO;
+					mensagensStatus[contErros] = MENSAGEM_CPF_INVALIDO;
 				}
 			}
 
@@ -125,6 +135,70 @@ public class ContaMediator {
 		return false;
 	}
 	
+	public static boolean validarCpf(String CPF) {
+		
+		CPF = removeCaracteresEspeciais(CPF);
+
+		if (CPF.equals("00000000000") || CPF.equals("11111111111") || CPF.equals("22222222222") || 
+				CPF.equals("33333333333") || CPF.equals("44444444444") || CPF.equals("55555555555") || 
+				CPF.equals("66666666666") || CPF.equals("77777777777") || CPF.equals("88888888888") || 
+				CPF.equals("99999999999") || (CPF.length() != 11))
+			return (false);
+
+		char dig10, dig11;
+		int sm, i, r, num, peso;
+
+		try {
+			sm = 0;
+			peso = 10;
+			for (i = 0; i < 9; i++) {     
+				num = (int) (CPF.charAt(i) - 48);
+				sm = sm + (num * peso);
+				peso = peso - 1;
+			}
+
+			r = 11 - (sm % 11);
+			if ((r == 10) || (r == 11))
+				dig10 = '0';
+			else
+				dig10 = (char) (r + 48);
+
+			sm = 0;
+			peso = 11;
+			for (i = 0; i < 10; i++) {
+				num = (int) (CPF.charAt(i) - 48);
+				sm = sm + (num * peso);
+				peso = peso - 1;
+			}
+
+			r = 11 - (sm % 11);
+			if ((r == 10) || (r == 11))
+				dig11 = '0';
+			else
+				dig11 = (char) (r + 48);
+
+			if ((dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10)))
+				return (true);
+			else
+				return (false);
+		} catch (InputMismatchException erro) {
+			return (false);
+		}
+	}
+	
+	private static String removeCaracteresEspeciais(String doc) {
+		if (doc.contains(".")) {
+			doc = doc.replace(".", "");
+		}
+		if (doc.contains("-")) {
+			doc = doc.replace("-", "");
+		}
+		if (doc.contains("/")) {
+			doc = doc.replace("/", "");
+		}
+		return doc;
+	}
+
     public static void creditar(long numero) {
     	Conta conta = repositorioConta.buscar(numero);
     	System.out.println("Saldo atual: " + conta.getSaldo());

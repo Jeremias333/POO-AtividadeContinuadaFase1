@@ -7,7 +7,7 @@ public class RepositorioCorrentista {
 	private static final int TAMANHO_MAX_FORNECEDORES = 1000;
 	private static RepositorioCorrentista instancia; 
 	
-	private Correntista[] cadastroFornecedor = new Correntista[TAMANHO_MAX_FORNECEDORES];
+	private Correntista[] cadastroCorrentista = new Correntista[TAMANHO_MAX_FORNECEDORES];
 	private int tamanhoAtual = 0;
 	
 	private RepositorioCorrentista() {
@@ -27,9 +27,9 @@ public class RepositorioCorrentista {
 		} else if (tamanhoAtual == TAMANHO_MAX_FORNECEDORES - 1) {
 			return false;
 		} else {
-			for (int i = 0; i < cadastroFornecedor.length; i++) {
-				if (cadastroFornecedor[i] == null) {
-					cadastroFornecedor[i] = correntista; 
+			for (int i = 0; i < cadastroCorrentista.length; i++) {
+				if (cadastroCorrentista[i] == null) {
+					cadastroCorrentista[i] = correntista; 
 					break;
 				}
 			}
@@ -42,7 +42,7 @@ public class RepositorioCorrentista {
 		if (indice == -1) {
 			return false;
 		} else {
-			cadastroFornecedor[indice] = correntista;
+			cadastroCorrentista[indice] = correntista;
 			return true; 
 		}
 	}
@@ -52,7 +52,7 @@ public class RepositorioCorrentista {
 		if (indice == -1) {
 			return null;
 		} else {
-			return cadastroFornecedor[indice];
+			return cadastroCorrentista[indice];
 		}
 	}
 	
@@ -61,7 +61,7 @@ public class RepositorioCorrentista {
 		if (indice == -1) {
 			return false;
 		} else {
-			cadastroFornecedor[indice] = null;
+			cadastroCorrentista[indice] = null;
 			tamanhoAtual--;
 			return true;
 		}		
@@ -70,7 +70,7 @@ public class RepositorioCorrentista {
 	public Correntista[] buscarTodos() {
 		Correntista[] resultado = new Correntista[tamanhoAtual];
 		int indice = 0;
-		for (Correntista correntista : cadastroFornecedor) {
+		for (Correntista correntista : cadastroCorrentista) {
 			if (correntista != null) {
 				resultado[indice++] = correntista; 
 			}
@@ -79,8 +79,8 @@ public class RepositorioCorrentista {
 	}
 	
 	private int buscarIndice(String cpf) {		
-		for (int i = 0; i < cadastroFornecedor.length; i++) {
-			Correntista correntista = cadastroFornecedor[i];
+		for (int i = 0; i < cadastroCorrentista.length; i++) {
+			Correntista correntista = cadastroCorrentista[i];
 			if (correntista != null && correntista.getCpf().equals(cpf)) {
 				return i; 				
 			}

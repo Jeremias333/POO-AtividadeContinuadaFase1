@@ -1,6 +1,7 @@
 package br.com.cesarschool.poo.telas;
 import java.time.LocalDate;
 import br.com.cesarschool.poo.repositorios.RepositorioConta;
+import br.com.cesarschool.poo.repositorios.RepositorioCorrentista;
 import br.com.cesarschool.poo.entidades.Conta;
 import br.com.cesarschool.poo.entidades.ContaPoupanca;
 import br.com.cesarschool.poo.entidades.Correntista;
@@ -14,6 +15,7 @@ public class TelaConta {
 	public static final int CODIGO_DESCONHECIDO = -1;
     private static final Scanner ENTRADA = new Scanner(System.in);
     private RepositorioConta repositorioConta = RepositorioConta.getInstancia();
+    private RepositorioCorrentista repositorioCorrentista = RepositorioCorrentista.getInstancia();
 
     private void printMenu() {		
 		System.out.println("1- Incluir");
@@ -90,8 +92,9 @@ public class TelaConta {
 		Conta conta = capturaConta(CODIGO_DESCONHECIDO);
 		StatusValidacaoConta retornoValidacao = ContaMediator.validar(conta);
 		if (retornoValidacao.isValido() == true) {
+			boolean retornoRepositorioCorrentista = repositorioCorrentista.incluir(conta.getCorrentista());
 			boolean retornoRepositorio = repositorioConta.incluir(conta);
-			if (retornoRepositorio) {
+			if (retornoRepositorio && retornoRepositorioCorrentista) {
 				System.out.println("Conta inclu√≠da com sucesso!");
 			} else {
 				System.out.println("Erro na inclus√£o de conta!");
@@ -162,7 +165,7 @@ public class TelaConta {
 		long numero = ENTRADA.nextLong();
 		Conta conta = repositorioConta.buscar(numero);
 		if (conta == null) {
-			System.out.println("Conta n√£o encontrado!");
+			System.out.println("Conta n√£o encontrada!");
 			return CODIGO_DESCONHECIDO;
 		} else {
 			return numero;
@@ -171,12 +174,14 @@ public class TelaConta {
     public Conta capturaConta(long codigoDaAlteracao) {
 		long numero;
 		LocalDate dataAbertura;
-		Conta conta;
+		Conta conta = null;
+		float taxaJuros;
 		int day;
 		int year;
 		int month;
 		String name;
 		String cpf;
+		String resposta;
 			
 		if (codigoDaAlteracao == CODIGO_DESCONHECIDO) {
 			System.out.print("Digite o numero: ");
@@ -189,10 +194,25 @@ public class TelaConta {
 			name = ENTRADA.next();
 			System.out.print("Digite o CPF do correntista: ");
 			cpf = ENTRADA.next();
-
-			Correntista correntista = new Correntista(name, cpf);
-		    return new Conta(numero, status, dataAbertura, correntista);
-			} else {
+			
+			System.out.print("Deseja criar uma conta poupanÁa? [s] [n]");
+			resposta = ENTRADA.next();
+			while(resposta.equals("s") && resposta.equals("n")) {
+				System.out.println("Resposta fora do padr„o, tente novamente");
+				System.out.print("Deseja criar uma conta poupanÁa? [s] [n]");
+				resposta = ENTRADA.next();
+			}
+			if(resposta.equals("s")) {
+				System.out.print("Digite a taxa de juros: ");
+				taxaJuros = ENTRADA.nextInt();
+				Correntista correntista = new Correntista(cpf, name);
+				conta = new ContaPoupanca(numero, status, dataAbertura, correntista, taxaJuros);
+			}
+			else if(resposta.equals("n")) {
+				Correntista correntista = new Correntista(cpf, name);
+				conta = new Conta(numero, status, dataAbertura, correntista);
+			} 
+		} else {
 				numero = codigoDaAlteracao;
 				printValores(numero);
 				conta = repositorioConta.buscar(numero);
@@ -209,12 +229,15 @@ public class TelaConta {
 				name = ENTRADA.next();
 				System.out.print("Digite o CPF do correntista: ");
 				cpf = ENTRADA.next();
-
 				Correntista correntista = new Correntista(name, cpf);
-
 				conta.setCorrentista(correntista);
-		        return(conta);
+				if(conta instanceof ContaPoupanca) {
+					System.out.print("Digite a taxa de juros: ");
+					taxaJuros = ENTRADA.nextInt();
+					((ContaPoupanca) conta).setTaxaJuros(taxaJuros);
+				}
 			}
+		return (conta);
 	    }
 	    public void printValores(long numero) {
 	    	if(numero != CODIGO_DESCONHECIDO) {

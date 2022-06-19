@@ -8,7 +8,7 @@ public class ContaPoupanca extends Conta {
 	private int totalDeposito;
 	
 	public ContaPoupanca(long numero, TipoStatus status, LocalDate dataAbertura, 
-			Correntista correntista, float taxaJuros, int totalDeposito) {
+			Correntista correntista, float taxaJuros) {
 		super(numero, status, dataAbertura, correntista);
 		this.taxaJuros = taxaJuros;
 		this.totalDeposito = 0;

@@ -1,7 +1,5 @@
 package br.com.cesarschool.poo.telas;
 
-import br.com.cesarschool.poo.telas.TelaConta;
-
 public class ProgramaCadastroConta {
 
 	public static void main(String[] args) {
