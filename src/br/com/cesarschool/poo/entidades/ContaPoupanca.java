@@ -5,14 +5,13 @@ import java.time.LocalDate;
 public class ContaPoupanca extends Conta {
 
 	private float taxaJuros;
-	private int taxaDeposito;
+	private int totalDeposito;
 	
 	public ContaPoupanca(long numero, TipoStatus status, LocalDate dataAbertura, 
-			Correntista correntista, float taxaJuros, int taxaDeposito) {
-		super(numero, status, dataAbertura);
+			Correntista correntista, float taxaJuros, int totalDeposito) {
+		super(numero, status, dataAbertura, correntista);
 		this.taxaJuros = taxaJuros;
-		this.taxaDeposito = taxaDeposito;
-		setCorrentista(correntista);
+		this.totalDeposito = 0;
 	}
 
 	public float getTaxaJuros() {
@@ -23,13 +22,15 @@ public class ContaPoupanca extends Conta {
 		this.taxaJuros = taxaJuros;
 	}
 
-	public int getTaxaDeposito() {
-		return taxaDeposito;
+	public int getTotalDeposito() {
+		return totalDeposito;
 	}
 
-	public void setTaxaDeposito(int taxaDeposito) {
-		this.taxaDeposito = taxaDeposito;
+	public void setTotalDeposito(int totalDeposito) {
+		this.totalDeposito = totalDeposito;
 	}
 	
-	
+	public boolean validarTaxaJuros() {
+		return taxaJuros > 0;
+	}
 }

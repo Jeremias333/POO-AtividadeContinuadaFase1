@@ -8,11 +8,12 @@ public class Conta {
 	private double saldo;
 	private Correntista correntista;
 
-	public Conta(long numero, TipoStatus status, LocalDate dataAbertura) {
+	public Conta(long numero, TipoStatus status, LocalDate dataAbertura, Correntista correntista) {
 		this.numero = numero;
 		this.status = status;
 		this.dataAbertura = dataAbertura;
 		this.saldo = 0;
+		this.correntista = correntista;
 	}
 	
 	public long getNumero() {

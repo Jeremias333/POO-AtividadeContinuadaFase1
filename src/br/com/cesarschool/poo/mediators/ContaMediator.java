@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 import br.com.cesarschool.poo.entidades.Conta;
+import br.com.cesarschool.poo.entidades.ContaPoupanca;
+import br.com.cesarschool.poo.entidades.Correntista;
 import br.com.cesarschool.poo.repositorios.RepositorioConta;
 
 public class ContaMediator {
@@ -11,13 +13,15 @@ public class ContaMediator {
 	private static RepositorioConta repositorioConta = RepositorioConta.getInstancia();
 
     private static final Scanner ENTRADA = new Scanner(System.in);
-	private static final String MENSAGEM_NUMERO_NAO_VALIDO = "Numero inválido!";
-	private static final String MENSAGEM_STATUS_NAO_PREENCHIDO = "Status não preenchido!";
-	private static final String MENSAGEM_CONTA_JA_CADASTRADA = "Conta já cadastrada!";
-	private static final String MENSAGEM_CONTA_NAO_ENCONTRADA = "conta não encontrada!";
-	private static final String MENSAGEM_CONTA_NAO_INFORMADA = "conta não informada!";
-	private static final String MENSAGEM_DATA_NAO_PREENCHIDA = "Data não preenchida!";
-	private static final String MENSAGEM_DATA_NAO_VALIDA = "Data inválidaa!";
+	private static final String MENSAGEM_NUMERO_NAO_VALIDO = "Numero invï¿½lido!";
+	private static final String MENSAGEM_STATUS_NAO_PREENCHIDO = "Status nï¿½o preenchido!";
+	private static final String MENSAGEM_CONTA_JA_CADASTRADA = "Conta jï¿½ cadastrada!";
+	private static final String MENSAGEM_CONTA_NAO_ENCONTRADA = "conta nï¿½o encontrada!";
+	private static final String MENSAGEM_CONTA_NAO_INFORMADA = "conta nï¿½o informada!";
+	private static final String MENSAGEM_DATA_NAO_PREENCHIDA = "Data nï¿½o preenchida!";
+	private static final String MENSAGEM_DATA_NAO_VALIDA = "Data invï¿½lidaa!";
+	private static final String MENSAGEM_CORRENTISTA_NAO_INFORMADO = "Correntista nï¿½o informado!";
+	private static final String MENSAGEM_TAXA_INVALIDA = "Taxa invÃ¡lida preenchida!";
 
 	public StatusValidacaoConta incluir(Conta conta) {
 		StatusValidacaoConta status = validar(conta);
@@ -81,6 +85,24 @@ public class ContaMediator {
 				mensagensStatus[contErros] = MENSAGEM_DATA_NAO_VALIDA;
 			}
 			
+			if (conta.getCorrentista() != null) {
+				Correntista correntista = CorrentistaMediator.buscar(conta.getCorrentista().getCpf());
+				if (correntista == null){
+					codigoStatus[contErros++] = StatusValidacaoConta.CORRENTISTA_NAO_INFORMADO;
+					mensagensStatus[contErros] = MENSAGEM_CORRENTISTA_NAO_INFORMADO;
+				}else{
+					conta.setCorrentista(correntista);
+				}
+			}
+
+			if (conta instanceof ContaPoupanca){
+				ContaPoupanca contaPoupanca = (ContaPoupanca) conta;
+
+				if (contaPoupanca.validarTaxaJuros() == false) {
+					codigoStatus[contErros++] = StatusValidacaoConta.TAXA_INVALIDA;
+					mensagensStatus[contErros] = MENSAGEM_TAXA_INVALIDA;
+				}
+			}
 		}
 		return new StatusValidacaoConta(codigoStatus, mensagensStatus, contErros == 0);
 	}
@@ -110,7 +132,13 @@ public class ContaMediator {
     	System.out.println("Digite o valor que deve ser creditado: ");
     	double valor = ENTRADA.nextDouble();
         if (conta.getNumero() == numero) {
-            conta.setSaldo(conta.getSaldo()+valor);
+			if (conta instanceof ContaPoupanca) {
+				ContaPoupanca contaPoupanca = (ContaPoupanca) conta;
+				contaPoupanca.setTotalDeposito(contaPoupanca.getTotalDeposito() + 1);
+				contaPoupanca.setSaldo(contaPoupanca.getSaldo() + (1+contaPoupanca.getTaxaJuros()/100)*valor);
+			}else{
+				conta.setSaldo(conta.getSaldo()+valor);
+			}	
         }
     }
 

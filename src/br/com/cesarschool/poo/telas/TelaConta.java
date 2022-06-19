@@ -2,6 +2,8 @@ package br.com.cesarschool.poo.telas;
 import java.time.LocalDate;
 import br.com.cesarschool.poo.repositorios.RepositorioConta;
 import br.com.cesarschool.poo.entidades.Conta;
+import br.com.cesarschool.poo.entidades.ContaPoupanca;
+import br.com.cesarschool.poo.entidades.Correntista;
 import br.com.cesarschool.poo.entidades.TipoStatus;
 import br.com.cesarschool.poo.mediators.ContaMediator;
 import br.com.cesarschool.poo.mediators.StatusValidacaoConta;
@@ -173,6 +175,8 @@ public class TelaConta {
 		int day;
 		int year;
 		int month;
+		String name;
+		String cpf;
 			
 		if (codigoDaAlteracao == CODIGO_DESCONHECIDO) {
 			System.out.print("Digite o numero: ");
@@ -181,7 +185,13 @@ public class TelaConta {
 			System.out.print("Digite o Status da conta (1, 2 ou 3): ");
 		    int statusTipo = ENTRADA.nextInt();
 		    TipoStatus status = TipoStatus.obterPorCodigo(statusTipo);
-		    return new Conta(numero, status, dataAbertura);
+			System.out.print("Digite o nome do correntista: ");
+			name = ENTRADA.next();
+			System.out.print("Digite o CPF do correntista: ");
+			cpf = ENTRADA.next();
+
+			Correntista correntista = new Correntista(name, cpf);
+		    return new Conta(numero, status, dataAbertura, correntista);
 			} else {
 				numero = codigoDaAlteracao;
 				printValores(numero);
@@ -195,6 +205,14 @@ public class TelaConta {
 				dataAbertura = LocalDate.of(year, month, day);
 				System.out.print("nova data: "+day+"/"+month+"/"+year);
 				conta.setDataAbertura(dataAbertura);
+				System.out.print("Digite o nome do correntista: ");
+				name = ENTRADA.next();
+				System.out.print("Digite o CPF do correntista: ");
+				cpf = ENTRADA.next();
+
+				Correntista correntista = new Correntista(name, cpf);
+
+				conta.setCorrentista(correntista);
 		        return(conta);
 			}
 	    }
@@ -205,6 +223,12 @@ public class TelaConta {
 	    		System.out.println("Data de abertura: " + conta.getDataAbertura());
 	    		System.out.println("Saldo: " + conta.getSaldo());
 	    		System.out.println("Status: " + conta.getStatus().getDescricao());
-	    	}
+				System.out.println("Nome do correntista: " + conta.getCorrentista().getNome());
+				System.out.println("CPF do correntista: " + conta.getCorrentista().getCpf());
+				if(conta instanceof ContaPoupanca){
+					System.out.println("Taxa de juros: " + ((ContaPoupanca) conta).getTaxaJuros());
+					System.out.println("Total de depositos: " + ((ContaPoupanca) conta).getTotalDeposito());
+				}
+			}
 	    }
 }

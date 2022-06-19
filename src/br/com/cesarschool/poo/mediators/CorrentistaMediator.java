@@ -5,7 +5,7 @@ import br.com.cesarschool.poo.repositorios.RepositorioCorrentista;
 
 public class CorrentistaMediator {
 	
-	private RepositorioCorrentista repositorioCorrentista = RepositorioCorrentista.getInstancia();
+	private static RepositorioCorrentista repositorioCorrentista = RepositorioCorrentista.getInstancia();
 
 	public boolean incluir(Correntista correntista) {
 		return repositorioCorrentista.incluir(correntista);
@@ -13,7 +13,7 @@ public class CorrentistaMediator {
 	public boolean alterar(Correntista correntista) {
 		return repositorioCorrentista.alterar(correntista);
 	}
-	public Correntista buscar(String cpf) {
+	public static Correntista buscar(String cpf) {
 		return repositorioCorrentista.buscar(cpf);
 	}
 	public boolean excluir(String cpf) {

@@ -9,6 +9,8 @@ public class StatusValidacaoConta {
 	public static final int NUMERO_NAO_VALIDO = 5;
 	public static final int DATA_NAO_PREENCHIDA = 6;
 	public static final int DATA_NAO_VALIDA = 7;
+	public static final int CORRENTISTA_NAO_INFORMADO = 8;
+	public static final int TAXA_INVALIDA = 9;
 	public static final int QTD_SITUACOES_EXCECAO = 7;
 	
 	private int[] codigosErros;
