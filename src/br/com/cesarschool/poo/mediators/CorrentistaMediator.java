@@ -23,11 +23,11 @@ public class CorrentistaMediator {
 	public Correntista[] consultarTodosOrdenadoPorNome() {
 		Correntista[] todos = repositorioCorrentista.buscarTodos();
 		if (todos != null && todos.length > 0) {
-			ordenarFornecedorPorNome(todos);
+			ordenarCorrentistaPorNome(todos);
 		}
 		return todos;
 	}
-	private void ordenarFornecedorPorNome(Correntista[] correntista) {
+	private void ordenarCorrentistaPorNome(Correntista[] correntista) {
 		Correntista ax = null;
 		for (int i = 0; i < correntista.length; i++) {
 			for (int k = i; k < correntista.length; k++) {
