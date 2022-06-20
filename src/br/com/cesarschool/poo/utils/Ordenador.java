@@ -4,18 +4,6 @@ public class Ordenador {
 	
 	private static final Comparador COMPARADOR_DE_COMPARAVEIS = new ComparadorDeComparavel(); 
 	
-//	public static void ordenar(Comparavel[] comparaveis) {
-//		Comparavel ax = null;
-//		for (int i = 0; i < comparaveis.length; i++) {
-//			for (int k = i; k < comparaveis.length; k++) {
-//				if (comparaveis[i].comparar(comparaveis[k]) > 0) {
-//					ax = comparaveis[i];
-//					comparaveis[i] = comparaveis[k];
-//					comparaveis[k] = ax;
-//				}
-//			} 
-//		}		
-//	}
 	public static void ordenar(Comparavel[] comparaveis) {
 		ordenar(comparaveis, COMPARADOR_DE_COMPARAVEIS);
 	}

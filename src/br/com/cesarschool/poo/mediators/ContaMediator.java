@@ -8,6 +8,9 @@ import br.com.cesarschool.poo.entidades.Conta;
 import br.com.cesarschool.poo.entidades.ContaPoupanca;
 import br.com.cesarschool.poo.entidades.Correntista;
 import br.com.cesarschool.poo.repositorios.RepositorioConta;
+import br.com.cesarschool.poo.utils.Ordenador;
+import br.com.cesarschool.poo.utils.conta.ComparadorContaDataAbertura;
+import br.com.cesarschool.poo.utils.conta.ComparadorContaSaldo;
 
 public class ContaMediator {
 
@@ -26,6 +29,9 @@ public class ContaMediator {
 	private static final String MENSAGEM_CPF_NAO_PREENCHIDO = "CPF não preenchido";
 	private static final String MENSAGEM_CPF_INVALIDO = "CPF invalido";
 
+	private static final ComparadorContaSaldo COMP_PRODUTO_POR_SALDO = new ComparadorContaSaldo();
+	private static final ComparadorContaDataAbertura COMP_PRODUTO_POR_DATA_ABERTURA = new ComparadorContaDataAbertura();
+	
 	public StatusValidacaoConta incluir(Conta conta) {
 		StatusValidacaoConta status = validar(conta);
 		if (status.isValido()) {
@@ -58,6 +64,29 @@ public class ContaMediator {
 
 	public Conta buscar(long numero) {
 		return repositorioConta.buscar(numero);
+	}
+	
+	public static Conta[] consultarTodosOrdenadoPorSaldo() {
+		Conta[] todos = repositorioConta.buscarTodos();
+		if (todos != null && todos.length > 0) {
+			ordenarPorSaldo(todos);
+		}
+		return todos;
+	}	
+	public static Conta[] consultarTodosOrdenadoPorDataAbertura() {
+		Conta[] todos = repositorioConta.buscarTodos();
+		if (todos != null && todos.length > 0) {
+			ordenarPorDataAbertura(todos);
+		}
+		return todos;
+	}
+	
+	private static void ordenarPorSaldo(Conta[] contas) {
+		Ordenador.ordenar(contas, COMP_PRODUTO_POR_SALDO);
+	}
+	
+	private static void ordenarPorDataAbertura(Conta[] contas) {
+		Ordenador.ordenar(contas, COMP_PRODUTO_POR_DATA_ABERTURA);
 	}
 
 	public static StatusValidacaoConta validar(Conta conta) {

@@ -28,13 +28,7 @@ public class CorrentistaMediator {
 		}
 		return todos;
 	}
-	public Correntista[] ordenarCorrentistaPorNome() {
-		Correntista[] todos = repositorioCorrentista.buscarTodos();
-		if (todos != null && todos.length > 0) {
-			ordenarCorrentistaPorNome(todos);
-		}
-		return todos;
-	}
+
 	private void ordenarCorrentistaPorNome(Correntista[] correntista) {
 		Ordenador.ordenar(correntista);
 	}

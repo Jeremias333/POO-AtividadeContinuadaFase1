@@ -27,7 +27,9 @@ public class TelaConta {
 		System.out.println("7- Buscar");
         System.out.println("8- Creditar");
         System.out.println("9- Debitar");
-		System.out.println("10- Sair");
+		System.out.println("10- relatório de contas ordenadas por saldo");
+		System.out.println("11- relatório de contas ordenadas por data de abertura");
+		System.out.println("12- Sair");
 		System.out.print("Digite a opÃ§Ã£o: ");
 	}
     
@@ -79,6 +81,12 @@ public class TelaConta {
             		ContaMediator.debitar(codigo);
 				}
             } else if (call == 10) {
+        		Conta[] contas = ContaMediator.consultarTodosOrdenadoPorSaldo();
+        		printValoresOrdem(contas);
+            }  else if (call == 11) {
+            	Conta[] contas = ContaMediator.consultarTodosOrdenadoPorDataAbertura();
+        		printValoresOrdem(contas);
+            } else if (call == 12) {
                 System.out.println("Saindo do cadastro de conta");
                 System.exit(0);
             } else {
@@ -253,5 +261,15 @@ public class TelaConta {
 					System.out.println("Total de depositos: " + ((ContaPoupanca) conta).getTotalDeposito());
 				}
 			}
+	    }
+	    
+	    public void printValoresOrdem(Conta[] todos) {
+	    	for (int i = 0; i < todos.length; i++) {
+	    		System.out.println("Numero: " + todos[i].getNumero());
+	    		System.out.println("Saldo: " + todos[i].getSaldo());
+	    		System.out.println("Data de abertura: " + todos[i].getDataAbertura());
+	    		System.out.println("Nome do correntista: " + todos[i].getCorrentista().getNome());
+	    	}
+    		
 	    }
 }

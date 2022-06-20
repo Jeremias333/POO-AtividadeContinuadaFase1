@@ -33,6 +33,6 @@ public class Correntista extends Identificavel implements Comparavel {
 	@Override
 	public int comparar(Object objeto) {
 		Correntista outro = (Correntista)objeto;
-		return this.getCpf().compareTo(outro.getCpf());
+		return this.getNome().compareTo(outro.getNome());
 	} 
 }
