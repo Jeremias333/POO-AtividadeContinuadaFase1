@@ -1,7 +1,9 @@
 package br.com.cesarschool.poo.entidades;
 import java.time.LocalDate;
 
-public class Conta {
+import br.com.cesarschool.poo.utils.Identificavel;
+
+public class Conta extends Identificavel {
 	private long numero;
 	private TipoStatus status;
 	private LocalDate dataAbertura;
@@ -48,6 +50,15 @@ public class Conta {
 		this.saldo = saldo;
 	}
 	
+	public Correntista getCorrentista() {
+		return correntista;
+	}
+
+	public void setCorrentista(Correntista correntista) {
+		this.correntista = correntista;
+	}
+	
+	
 	public int calcularEscoreConta() {
 		if (this.status != TipoStatus.BLOQUEADA) {
 			if(this.status == TipoStatus.ENCERRADA) {
@@ -69,11 +80,8 @@ public class Conta {
 		return 0;
 	}
 
-	public Correntista getCorrentista() {
-		return correntista;
-	}
-
-	public void setCorrentista(Correntista correntista) {
-		this.correntista = correntista;
+	@Override
+	public String getIdentificadorUnico() {
+		return "" + numero;
 	}
 }

@@ -2,16 +2,12 @@ package br.com.cesarschool.poo.repositorios;
 
 import br.com.cesarschool.poo.entidades.Correntista;
 
-public class RepositorioCorrentista {
+public class RepositorioCorrentista extends RepositorioGenericoIdentificavel {
 
-	private static final int TAMANHO_MAX_FORNECEDORES = 1000;
 	private static RepositorioCorrentista instancia; 
 	
-	private Correntista[] cadastroCorrentista = new Correntista[TAMANHO_MAX_FORNECEDORES];
-	private int tamanhoAtual = 0;
 	
-	private RepositorioCorrentista() {
-		
+	private RepositorioCorrentista() {		
 	}
 	
 	public static RepositorioCorrentista getInstancia() {
@@ -22,69 +18,27 @@ public class RepositorioCorrentista {
 	}
 	
 	public boolean incluir(Correntista correntista) {
-		if (buscarIndice(correntista.getCpf()) != -1) {
-			return false;
-		} else if (tamanhoAtual == TAMANHO_MAX_FORNECEDORES - 1) {
-			return false;
-		} else {
-			for (int i = 0; i < cadastroCorrentista.length; i++) {
-				if (cadastroCorrentista[i] == null) {
-					cadastroCorrentista[i] = correntista; 
-					break;
-				}
-			}
-			tamanhoAtual++; 
-			return true; 
-		}
+		return super.incluir(correntista);
 	}
 	public boolean alterar(Correntista correntista) {
-		int indice = buscarIndice(correntista.getCpf()); 
-		if (indice == -1) {
-			return false;
-		} else {
-			cadastroCorrentista[indice] = correntista;
-			return true; 
-		}
+		return super.alterar(correntista);
 	}
 	
 	public Correntista buscar(String cpf) {
-		int indice = buscarIndice(cpf);
-		if (indice == -1) {
-			return null;
-		} else {
-			return cadastroCorrentista[indice];
-		}
+		return (Correntista)super.buscar(cpf);
 	}
 	
 	public boolean excluir(String cpf) {
-		int indice = buscarIndice(cpf);
-		if (indice == -1) {
-			return false;
-		} else {
-			cadastroCorrentista[indice] = null;
-			tamanhoAtual--;
-			return true;
-		}		
+		return super.excluir(cpf);
 	}
 	
 	public Correntista[] buscarTodos() {
-		Correntista[] resultado = new Correntista[tamanhoAtual];
-		int indice = 0;
-		for (Correntista correntista : cadastroCorrentista) {
-			if (correntista != null) {
-				resultado[indice++] = correntista; 
-			}
-		}
-		return resultado;
+		return (Correntista[])super.buscarTodos();
 	}
-	
-	private int buscarIndice(String cpf) {		
-		for (int i = 0; i < cadastroCorrentista.length; i++) {
-			Correntista correntista = cadastroCorrentista[i];
-			if (correntista != null && correntista.getCpf().equals(cpf)) {
-				return i; 				
-			}
-		}
-		return -1;
-	}		
+
+	@Override
+	public int getTamanhoMaximoRepositorio() {
+		return 1000;
+	}
+		
 }

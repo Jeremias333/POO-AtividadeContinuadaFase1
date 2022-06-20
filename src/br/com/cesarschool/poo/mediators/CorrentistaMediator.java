@@ -2,6 +2,7 @@ package br.com.cesarschool.poo.mediators;
 
 import br.com.cesarschool.poo.entidades.Correntista;
 import br.com.cesarschool.poo.repositorios.RepositorioCorrentista;
+import br.com.cesarschool.poo.utils.Ordenador;
 
 public class CorrentistaMediator {
 	
@@ -23,20 +24,18 @@ public class CorrentistaMediator {
 	public Correntista[] consultarTodosOrdenadoPorNome() {
 		Correntista[] todos = repositorioCorrentista.buscarTodos();
 		if (todos != null && todos.length > 0) {
-			ordenarFornecedorPorNome(todos);
+			ordenarCorrentistaPorNome(todos);
 		}
 		return todos;
 	}
-	private void ordenarFornecedorPorNome(Correntista[] correntista) {
-		Correntista ax = null;
-		for (int i = 0; i < correntista.length; i++) {
-			for (int k = i; k < correntista.length; k++) {
-				if (correntista[i].getNome().compareTo(correntista[k].getNome()) > 0) {
-					ax = correntista[i];
-					correntista[i] = correntista[k];
-					correntista[k] = ax;
-				}
-			} 
+	public Correntista[] ordenarCorrentistaPorNome() {
+		Correntista[] todos = repositorioCorrentista.buscarTodos();
+		if (todos != null && todos.length > 0) {
+			ordenarCorrentistaPorNome(todos);
 		}
+		return todos;
+	}
+	private void ordenarCorrentistaPorNome(Correntista[] correntista) {
+		Ordenador.ordenar(correntista);
 	}
 }

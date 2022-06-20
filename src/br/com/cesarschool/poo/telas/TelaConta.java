@@ -199,7 +199,7 @@ public class TelaConta {
 			resposta = ENTRADA.next();
 			while(resposta.equals("s") && resposta.equals("n")) {
 				System.out.println("Resposta fora do padrão, tente novamente");
-				System.out.print("Deseja criar uma conta poupança? [s] [n]");
+				System.out.print("Deseja criar uma conta poupança? [s] [n] ");
 				resposta = ENTRADA.next();
 			}
 			if(resposta.equals("s")) {
@@ -223,13 +223,13 @@ public class TelaConta {
 				System.out.print("Digite o ano da abertura: ");
 				year = ENTRADA.nextInt();
 				dataAbertura = LocalDate.of(year, month, day);
-				System.out.print("nova data: "+day+"/"+month+"/"+year);
+				System.out.println("nova data: "+day+"/"+month+"/"+year);
 				conta.setDataAbertura(dataAbertura);
 				System.out.print("Digite o nome do correntista: ");
 				name = ENTRADA.next();
 				System.out.print("Digite o CPF do correntista: ");
 				cpf = ENTRADA.next();
-				Correntista correntista = new Correntista(name, cpf);
+				Correntista correntista = new Correntista(cpf, name);
 				conta.setCorrentista(correntista);
 				if(conta instanceof ContaPoupanca) {
 					System.out.print("Digite a taxa de juros: ");
