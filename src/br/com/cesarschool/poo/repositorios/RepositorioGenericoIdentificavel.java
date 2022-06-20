@@ -1,9 +1,13 @@
 package br.com.cesarschool.poo.repositorios;
 
+import br.com.cesarschool.poo.excecoes.ExcecaoObjetoJaExistente;
+import br.com.cesarschool.poo.excecoes.ExcecaoValidacao;
 import br.com.cesarschool.poo.utils.Identificavel;
 
 public abstract class RepositorioGenericoIdentificavel {
 	
+	private static final String JA_EXISTENETE = " já existente!";
+	private static final String NAO_EXISTENETE = " não existente!";
 	private Identificavel[] cadastro;
 	private int tamanhoAtual = 0;
 	
@@ -12,13 +16,13 @@ public abstract class RepositorioGenericoIdentificavel {
 	}
 	
 	public abstract int getTamanhoMaximoRepositorio(); 
+	public abstract String getNomeRepositorio();
 	
-	
-	public boolean incluir(Identificavel identificavel) {
+	public boolean incluir(Identificavel identificavel) throws ExcecaoObjetoJaExistente {
 		if (buscarIndice(identificavel.getIdentificadorUnico()) != -1) {
-			return false;
+			throw new ExcecaoObjetoJaExistente(getNomeRepositorio() + JA_EXISTENETE);
 		} else if (tamanhoAtual == getTamanhoMaximoRepositorio() - 1) {
-			return false;
+			throw new ExcecaoValidacao("Tamanho máximo do repositório excedido!");
 		} else {
 			for (int i = 0; i < cadastro.length; i++) {
 				if (cadastro[i] == null) {

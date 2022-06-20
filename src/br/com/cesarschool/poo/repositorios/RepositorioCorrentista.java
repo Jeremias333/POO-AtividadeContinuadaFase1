@@ -40,5 +40,10 @@ public class RepositorioCorrentista extends RepositorioGenericoIdentificavel {
 	public int getTamanhoMaximoRepositorio() {
 		return 1000;
 	}
-		
+
+	@Override
+	public String getNomeRepositorio() {
+		return "Correntista";
+	}
+
 }

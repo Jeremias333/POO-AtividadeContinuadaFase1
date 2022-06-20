@@ -38,6 +38,11 @@ public class RepositorioConta extends RepositorioGenericoIdentificavel {
 	@Override
 	public int getTamanhoMaximoRepositorio() {
 		return 10000;
-	}	
+	}
+
+	@Override
+	public String getNomeRepositorio() {
+		return "Conta";
+	}		
 	
 }
